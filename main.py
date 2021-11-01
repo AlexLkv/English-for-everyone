@@ -1,16 +1,18 @@
 import sqlite3
 import sys
+import time
 
-from PyQt5 import uic
+from PyQt5 import uic, Qt
+from PyQt5.QtCore import QTimer
+
 from PyQt5.QtWidgets import QApplication, QMainWindow, QDialog, QWidget
-
-from front import Ui_MainWindow
-from tests import Ui_Dialog
 
 
 # ГЛАВНОЕ МЕНЮ
 # SETENABLE() - БЛОК КНОПКИ
-class Menu1(QMainWindow, Ui_MainWindow):
+
+
+class Menu1(QMainWindow):
     def __init__(self):
         super(Menu1, self).__init__()
         uic.loadUi('front.ui', self)
@@ -30,7 +32,7 @@ class Menu1(QMainWindow, Ui_MainWindow):
 
 
 # НАЧАЛО ТЕСТИРОВАНИЯ
-class tests(QDialog, Ui_Dialog):
+class tests(QDialog):
     def __init__(self):
         super().__init__()
         uic.loadUi('tests.ui', self)
@@ -58,20 +60,61 @@ class tests(QDialog, Ui_Dialog):
 class altest(QWidget):
     def __init__(self):
         super().__init__()
+        self.con = sqlite3.connect('users')
+        self.cur = self.con.cursor()
         self.i = 1
         self.count = 0
+        self.maxi = self.cur.execute("""SELECT * FROM all_test WHERE id = (SELECT max(id) FROM all_test""").fetchall()
+        print(self.maxi)
         self.ui = uic.loadUi('untitled.ui', self)
         self.cont.clicked.connect(self.onClicked)
+        self.con.clicked.connect(self.onClicked)
+        self.con.hide()
+        self.ui.prog.setMaximum(60)
+        self.ui.prog.setValue(self.i)
+        self.min = 0
+        self.h = 0
+        self.step = 0
+        self.step_2 = 0
+        self.min_2 = 0
+        self.timer = QTimer(self)
+        self.timer.timeout.connect(self.update_func)
+        self.timer.start(1000)
+        self.time = ''
+
+    def update_func(self):
+        self.step += 1
+        if self.step == 10:
+            self.step_2 += 1
+            self.step = 0
+        if self.step_2 == 6:
+            self.min += 1
+            self.step_2 = 0
+            self.step = 0
+        if self.min == 10:
+            self.min_2 += 1
+        if self.min_2 == 6:
+            self.h += 1
+            self.min = 0
+            self.min_2 = 0
+            self.step_2 = 0
+            self.step = 0
+        self.time = str(f"0{self.h}:{self.min_2}{self.min}:{self.step_2}{self.step}")
+        self.label.setText(self.time)
 
     def onClicked(self):
-        con = sqlite3.connect('users')
-        cur = con.cursor()
-        value = cur.execute(f'SELECT * FROM all_test WHERE id="{self.i}"').fetchall()
+
+        value = self.cur.execute(f'SELECT * FROM all_test WHERE id="{self.i}"').fetchall()
         if self.ui.otv.currentText() == value[0][6]:
             self.count += 1
         self.i += 1
+        self.ui.prog.setValue(self.i)
+
         if self.i != 1:
-            value = cur.execute(f'SELECT * FROM all_test WHERE id="{self.i}"').fetchall()
+            if self.i == 60:
+                self.cont.hide()
+                self.con.show()
+            value = self.cur.execute(f'SELECT * FROM all_test WHERE id="{self.i}"').fetchall()
             self.ui.task.setText(value[0][1])
             self.ui.anc_1.setText(value[0][2])
             self.ui.anc_2.setText(value[0][3])
@@ -79,7 +122,8 @@ class altest(QWidget):
             self.ui.anc_4.setText(value[0][5])
             self.ui.chet.setText(str(self.i))
             self.ui.chet_3.setText(str(self.count))
-            print(self.i, self.count)
+        #if self.i > 60:
+
 
 
 # МЕНЮ ВЫБОРА АВТОРИЗАЦИИ
@@ -107,9 +151,6 @@ class autoris(QWidget):
             self.third_form = get_pass()
             self.third_form.show()
             self.setVisible(False)
-
-    def fx(self):
-        self.setVisible(True)
 
 
 # ВХОД В СИСТЕМУ

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1171</width>
-    <height>249</height>
+    <height>253</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -49,14 +49,15 @@
   <widget class="QLabel" name="task">
    <property name="geometry">
     <rect>
-     <x>70</x>
+     <x>60</x>
      <y>80</y>
-     <width>1091</width>
+     <width>1111</width>
      <height>31</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">font: 18pt &quot;MS Shell Dlg 2&quot;;</string>
+    <string notr="true">font: 18pt &quot;MS Shell Dlg 2&quot;;
+color: rgb(152, 29, 29);</string>
    </property>
    <property name="text">
     <string>How old are you?</string>
@@ -262,9 +263,9 @@ color: rgb(173, 0, 0);</string>
   <widget class="QLabel" name="chet_2">
    <property name="geometry">
     <rect>
-     <x>50</x>
+     <x>46</x>
      <y>80</y>
-     <width>16</width>
+     <width>20</width>
      <height>31</height>
     </rect>
    </property>
@@ -307,6 +308,72 @@ color: rgb(173, 0, 0);</string>
    </property>
    <property name="text">
     <string>-</string>
+   </property>
+  </widget>
+  <widget class="QProgressBar" name="prog">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1171</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">text-align: center;
+border-radius: 6px;
+background-color: rgb(172, 255, 172);</string>
+   </property>
+   <property name="value">
+    <number>24</number>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="con">
+   <property name="geometry">
+    <rect>
+     <x>1050</x>
+     <y>200</y>
+     <width>101</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">font: 75 18pt &quot;MS Shell Dlg 2&quot;;</string>
+   </property>
+   <property name="text">
+    <string>Готово!</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>1060</x>
+     <y>40</y>
+     <width>101</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">font: 75 18pt &quot;MS Shell Dlg 2&quot;;</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_3">
+   <property name="geometry">
+    <rect>
+     <x>1080</x>
+     <y>20</y>
+     <width>51</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">font: 11pt &quot;MS Shell Dlg 2&quot;;</string>
+   </property>
+   <property name="text">
+    <string>Время:</string>
    </property>
   </widget>
  </widget>
