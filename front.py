@@ -109,6 +109,7 @@ class Ui_MainWindow(object):
         self.entrpass.setObjectName("entrpass")
         self.menu.addAction(self.entrpass)
         self.menubar.addAction(self.menu.menuAction())
+        self.widget.setStyleSheet("")
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
@@ -123,4 +124,5 @@ class Ui_MainWindow(object):
         self.txt_menu.setText(_translate("MainWindow", "  Определите свой уровень"))
         self.menu.setTitle(_translate("MainWindow", "Админ-меню"))
         self.entrpass.setText(_translate("MainWindow", "Введите пароль "))
-import df
+#import df
+
