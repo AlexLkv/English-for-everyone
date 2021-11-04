@@ -9,8 +9,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>600</height>
+    <width>803</width>
+    <height>558</height>
    </rect>
   </property>
   <property name="mouseTracking">
@@ -40,18 +40,18 @@
     </property>
     <property name="font">
      <font>
-      <family>Segoe Print</family>
-      <pointsize>25</pointsize>
-      <weight>50</weight>
+      <family>Comic Sans MS</family>
+      <pointsize>28</pointsize>
+      <weight>9</weight>
       <italic>false</italic>
       <bold>false</bold>
-      <underline>false</underline>
-      <kerning>false</kerning>
      </font>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-color:qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(142, 227, 235, 226), stop:1 rgba(229, 249, 255, 255));
-</string>
+     <string notr="true">background-color:qlineargradient(spread:reflect, x1:0, y1:0, x2:1, y2:1, stop:0.227273 rgba(255, 203, 81, 237), stop:0.886364 rgba(255, 134, 73, 255));
+border: 2px solid #ff7474;
+border-radius: 10px;
+font: 75 28pt &quot;Comic Sans MS&quot;;</string>
     </property>
     <property name="text">
      <string>Тестирование</string>
@@ -68,20 +68,21 @@
     </property>
     <property name="font">
      <font>
-      <family>Segoe Print</family>
+      <family>Comic Sans MS</family>
       <pointsize>25</pointsize>
-      <weight>50</weight>
+      <weight>9</weight>
       <italic>false</italic>
       <bold>false</bold>
-      <underline>false</underline>
-      <kerning>false</kerning>
      </font>
     </property>
     <property name="focusPolicy">
      <enum>Qt::WheelFocus</enum>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-color:qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(142, 227, 235, 226), stop:1 rgba(229, 249, 255, 255))</string>
+     <string notr="true">background-color:qlineargradient(spread:reflect, x1:0, y1:0, x2:1, y2:1, stop:0.227273 rgba(255, 203, 81, 237), stop:0.886364 rgba(255, 134, 73, 255));
+border: 2px solid #ff7474;
+border-radius: 10px;
+font: 75 25pt &quot;Comic Sans MS&quot;;</string>
     </property>
     <property name="text">
      <string>Авторизация</string>
@@ -98,17 +99,18 @@
     </property>
     <property name="font">
      <font>
-      <family>Segoe Print</family>
-      <pointsize>25</pointsize>
-      <weight>50</weight>
+      <family>Comic Sans MS</family>
+      <pointsize>26</pointsize>
+      <weight>9</weight>
       <italic>false</italic>
       <bold>false</bold>
-      <underline>false</underline>
-      <kerning>false</kerning>
      </font>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-color:qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(142, 227, 235, 226), stop:1 rgba(229, 249, 255, 255))</string>
+     <string notr="true">background-color:qlineargradient(spread:reflect, x1:0, y1:0, x2:1, y2:1, stop:0.227273 rgba(255, 203, 81, 237), stop:0.886364 rgba(255, 134, 73, 255));
+border: 2px solid #ff7474;
+border-radius: 10px;
+font: 75 26pt &quot;Comic Sans MS&quot;;</string>
     </property>
     <property name="text">
      <string>Общий рейтинг</string>
@@ -162,23 +164,49 @@
      <string>  Определите свой уровень</string>
     </property>
    </widget>
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>430</y>
+      <width>101</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 75 12pt &quot;System&quot;;</string>
+    </property>
+    <property name="text">
+     <string>Пользователь:</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="user">
+    <property name="geometry">
+     <rect>
+      <x>110</x>
+      <y>430</y>
+      <width>271</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 75 12pt &quot;System&quot;;</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
    <widget class="QWidget" name="widget" native="true">
     <property name="geometry">
      <rect>
-      <x>-680</x>
-      <y>-150</y>
-      <width>1551</width>
-      <height>1011</height>
+      <x>-340</x>
+      <y>-30</y>
+      <width>1521</width>
+      <height>571</height>
      </rect>
     </property>
-    <property name="mouseTracking">
-     <bool>false</bool>
-    </property>
-    <property name="tabletTracking">
-     <bool>false</bool>
-    </property>
     <property name="styleSheet">
-     <string notr="true">background-image: url(:/newPrefix/1613504474_35-p-fon-dlya-prezentatsii-uchitelya-angliiskog-40.jpg);</string>
+     <string notr="true">background-color: qlineargradient(spread:reflect, x1:1, y1:1, x2:0, y2:0, stop:0.227273 rgba(165, 255, 249, 237), stop:0.886364 rgba(210, 131, 255, 255));</string>
     </property>
    </widget>
    <zorder>widget</zorder>
@@ -187,13 +215,15 @@
    <zorder>txt_menu_2</zorder>
    <zorder>txt_menu</zorder>
    <zorder>btn_testing</zorder>
+   <zorder>label</zorder>
+   <zorder>user</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>800</width>
+     <width>803</width>
      <height>21</height>
     </rect>
    </property>
@@ -205,16 +235,12 @@
    </widget>
    <addaction name="menu"/>
   </widget>
-  <widget class="QStatusBar" name="statusbar"/>
   <action name="entrpass">
    <property name="text">
     <string>Введите пароль </string>
    </property>
   </action>
  </widget>
- <resources>
-  <include location="df.qrc"/>
-  <include location="df.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>
