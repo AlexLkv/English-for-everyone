@@ -64,9 +64,9 @@ class tests(QDialog):
 class altest(QWidget):
     def __init__(self):
         super().__init__()
-        self.con = sqlite3.connect('users')
-        self.cur = self.con.cursor()
-        self.i = 1
+        self.con1 = sqlite3.connect('users')
+        self.cur = self.con1.cursor()
+        self.i = 59
         self.count = 0
         self.maxi = self.cur.execute("""SELECT id FROM all_test ORDER BY id DESC""").fetchone()
         self.ui = uic.loadUi('untitled.ui', self)
@@ -106,7 +106,7 @@ class altest(QWidget):
         self.label.setText(self.time)
 
     def onClicked(self):
-        if self.ui.otv.currentText() == bd.data.login_data(self.i)[0][6]:
+        if self.ui.otv.currentText() == bd.Data.vopros(self, self.i)[0][6]:
             self.count += 1
         self.i += 1
         self.ui.prog.setValue(self.i)
@@ -116,19 +116,17 @@ class altest(QWidget):
             name = f.readline()
             if self.count < 15:
                 self.lvl = 'A1-A2'
-            elif self.count >= 16 and self.count <= 30:
+            elif 16 <= self.count <= 30:
                 self.lvl = 'B1-B2'
             else:
                 self.lvl = 'C1-C2'
             self.cur.execute(
-                "INSERT INTO rusults (name, lvl, vop, otv, time)" +
-                f"VALUES ('{name}', '{self.lvl}', '{self.maxi[0]}, '{self.time}')")
-            self.con.commit()
-            self.cur.close()
-            self.close()
-            self.second_form = results()
-            self.second_form.show()
-        if self.i != 1:
+                "INSERT INTO results (name, lvl, vopr, otv, time)" +
+                f"VALUES ('{name}', '{self.lvl}', '{self.maxi[0]}', '{self.count}', '{self.time}')")
+            self.con1.commit()
+            self.resul = results()
+            self.resul.show()
+        if self.i != 1 and self.i <= int(self.maxi[0]):
             if self.i == self.maxi[0]:
                 self.cont.hide()
                 self.con.show()
@@ -142,19 +140,20 @@ class altest(QWidget):
             self.ui.chet_3.setText(str(self.count))
 
 
-class results(QWidget):
+class results(QDialog):
     def __init__(self):
         super().__init__()
         uic.loadUi('rezults.ui', self)
         f = open('temp.txt', 'r')
         name = f.readline()
         con = sqlite3.connect('users')
-        cur = self.con.cursor()
+        cur = con.cursor()
         values = cur.execute(f'SELECT * FROM results WHERE name="{name}"').fetchall()
-        self.lvl.setText(values[0][1])
-        self.vop.setText(values[0][2])
-        self.otv.setText(values[0][3])
-        self.time.setText(values[0][4])
+        self.lvl.setText(str(values[0][1]))
+        self.vop.setText(str(values[0][2]))
+        self.otv.setText(str(values[0][3]))
+        self.time.setText(str(values[0][4]))
+
 
 
 # МЕНЮ ВЫБОРА АВТОРИЗАЦИИ
@@ -196,6 +195,8 @@ class vxod(QWidget):
 
     def onClicked(self):
         self.login = self.ui.name_inp.text()
+        f = open('temp.txt', 'w')
+        f.write(self.login)
         if self.sender().text() == "<-- Назад":
             self.close()
 
