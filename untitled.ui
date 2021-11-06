@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1167</width>
-    <height>336</height>
+    <height>331</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -63,7 +63,7 @@ font: 75 28pt &quot;Comic Sans MS&quot;;</string>
 color: rgb(152, 29, 29);</string>
    </property>
    <property name="text">
-    <string>How old are you?</string>
+    <string>-</string>
    </property>
   </widget>
   <widget class="QLabel" name="label_2">
@@ -95,7 +95,7 @@ color: rgb(152, 29, 29);</string>
     <string notr="true">font: 16pt &quot;MS Shell Dlg 2&quot;;</string>
    </property>
    <property name="text">
-    <string>I have 16</string>
+    <string>-</string>
    </property>
   </widget>
   <widget class="QLabel" name="anc_2">
@@ -111,7 +111,7 @@ color: rgb(152, 29, 29);</string>
     <string notr="true">font: 16pt &quot;MS Shell Dlg 2&quot;;</string>
    </property>
    <property name="text">
-    <string>I am 16</string>
+    <string>-</string>
    </property>
   </widget>
   <widget class="QLabel" name="anc_3">
@@ -127,7 +127,7 @@ color: rgb(152, 29, 29);</string>
     <string notr="true">font: 16pt &quot;MS Shell Dlg 2&quot;;</string>
    </property>
    <property name="text">
-    <string>I have 16 years</string>
+    <string>-</string>
    </property>
   </widget>
   <widget class="QLabel" name="anc_4">
@@ -143,10 +143,10 @@ color: rgb(152, 29, 29);</string>
     <string notr="true">font: 16pt &quot;MS Shell Dlg 2&quot;;</string>
    </property>
    <property name="text">
-    <string>I am 16 years</string>
+    <string>-</string>
    </property>
   </widget>
-  <widget class="QLabel" name="label_4">
+  <widget class="QLabel" name="a">
    <property name="geometry">
     <rect>
      <x>10</x>
@@ -163,7 +163,7 @@ color: rgb(173, 0, 0);</string>
     <string>A</string>
    </property>
   </widget>
-  <widget class="QLabel" name="label_5">
+  <widget class="QLabel" name="b">
    <property name="geometry">
     <rect>
      <x>300</x>
@@ -180,7 +180,7 @@ color: rgb(173, 0, 0);</string>
     <string>B</string>
    </property>
   </widget>
-  <widget class="QLabel" name="label_6">
+  <widget class="QLabel" name="c">
    <property name="geometry">
     <rect>
      <x>590</x>
@@ -197,7 +197,7 @@ color: rgb(173, 0, 0);</string>
     <string>C</string>
    </property>
   </widget>
-  <widget class="QLabel" name="label_10">
+  <widget class="QLabel" name="d">
    <property name="geometry">
     <rect>
      <x>880</x>
@@ -244,7 +244,7 @@ color: rgb(173, 0, 0);</string>
 color: rgb(173, 0, 0);</string>
    </property>
    <property name="text">
-    <string>1</string>
+    <string>-</string>
    </property>
   </widget>
   <widget class="QLabel" name="chet_2">
@@ -369,8 +369,8 @@ font: 75 16pt &quot;Comic Sans MS&quot;;</string>
   <widget class="QWidget" name="widget" native="true">
    <property name="geometry">
     <rect>
-     <x>-230</x>
-     <y>-70</y>
+     <x>0</x>
+     <y>0</y>
      <width>1621</width>
      <height>551</height>
     </rect>
@@ -398,7 +398,24 @@ font: 75 18pt &quot;Comic Sans MS&quot;;</string>
     <string>Далее</string>
    </property>
   </widget>
+  <widget class="QLineEdit" name="lineEdit">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>190</y>
+     <width>1061</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color:#d8fffb;
+border: 2px solid #ff7474;
+border-radius: 10px;
+font: 16pt &quot;MS Shell Dlg 2&quot;;</string>
+   </property>
+  </widget>
   <zorder>widget</zorder>
+  <zorder>lineEdit</zorder>
   <zorder>otv</zorder>
   <zorder>task</zorder>
   <zorder>label_2</zorder>
@@ -406,10 +423,10 @@ font: 75 18pt &quot;Comic Sans MS&quot;;</string>
   <zorder>anc_2</zorder>
   <zorder>anc_3</zorder>
   <zorder>anc_4</zorder>
-  <zorder>label_4</zorder>
-  <zorder>label_5</zorder>
-  <zorder>label_6</zorder>
-  <zorder>label_10</zorder>
+  <zorder>a</zorder>
+  <zorder>b</zorder>
+  <zorder>c</zorder>
+  <zorder>d</zorder>
   <zorder>label_11</zorder>
   <zorder>chet</zorder>
   <zorder>chet_2</zorder>

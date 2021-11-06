@@ -10,6 +10,7 @@ import bd
 
 # ГЛАВНОЕ МЕНЮ
 
+
 class Menu1(QMainWindow):
     def __init__(self):
         super(Menu1, self).__init__()
@@ -33,9 +34,6 @@ class Menu1(QMainWindow):
             self.second_form.show()
         if self.sender().text() == "Общий рейтинг":
             pass
-
-
-# НАЧАЛО ТЕСТИРОВАНИЯ
 class tests(QDialog):
     def __init__(self):
         super().__init__()
@@ -50,27 +48,28 @@ class tests(QDialog):
         if self.sender().text() == "<-- Назад":
             self.close()
         elif self.sender().text() == "Узнать средний уровень ":
-            self.first_form = altest()
+            self.first_form = test(1)
             self.first_form.show()
             self.setVisible(False)
         elif self.sender().text() == "Тест level A1-А2":
-            pass
+            self.first_form = test(2)
+            self.first_form.show()
+            self.setVisible(False)
         elif self.sender().text() == "Тест level B1-B2":
             pass
         elif self.sender().text() == "Тест level C1-C2":
             pass
 
-
-class altest(QWidget):
-    def __init__(self):
+# НАЧАЛО ТЕСТИРОВАНИЯ
+class test(QWidget):
+    def __init__(self, ts):
         super().__init__()
         self.con1 = sqlite3.connect('users')
         self.cur = self.con1.cursor()
-        self.i = 59
+        self.i = 1
         self.count = 0
         self.maxi = self.cur.execute("""SELECT id FROM all_test ORDER BY id DESC""").fetchone()
         self.ui = uic.loadUi('untitled.ui', self)
-        self.cont.clicked.connect(self.onClicked)
         self.con.clicked.connect(self.onClicked)
         self.con.hide()
         self.ui.prog.setMaximum(self.maxi[0])
@@ -82,8 +81,20 @@ class altest(QWidget):
         self.min_2 = 0
         self.timer = QTimer(self)
         self.timer.timeout.connect(self.update_func)
-        self.timer.start(1000)
-        self.time = ''
+        if ts == 1:
+            value = self.cur.execute(f'SELECT * FROM all_test WHERE id="{1}"').fetchall()
+            self.lineEdit.hide()
+            self.task.setText(value[0][1])
+            self.anc_1.setText(value[0][2])
+            self.anc_2.setText(value[0][3])
+            self.anc_3.setText(value[0][4])
+            self.anc_4.setText(value[0][5])
+            self.chet.setText(str(self.i))
+            self.chet_3.setText(str(self.count))
+            self.cont.clicked.connect(self.onClicked)
+            self.timer.start(1000)
+            self.time = ''
+
 
     def update_func(self):
         self.step += 1
@@ -106,7 +117,7 @@ class altest(QWidget):
         self.label.setText(self.time)
 
     def onClicked(self):
-        if self.ui.otv.currentText() == bd.Data.vopros(self, self.i)[0][6]:
+        if self.ui.otv.currentText() == bd.Data.vopros(self, self.i, 1)[0][6]:
             self.count += 1
         self.i += 1
         self.ui.prog.setValue(self.i)
@@ -126,7 +137,7 @@ class altest(QWidget):
             self.con1.commit()
             self.resul = results()
             self.resul.show()
-        if self.i != 1 and self.i <= int(self.maxi[0]):
+        if self.i <= int(self.maxi[0]):
             if self.i == self.maxi[0]:
                 self.cont.hide()
                 self.con.show()
@@ -138,6 +149,8 @@ class altest(QWidget):
             self.ui.anc_4.setText(value[0][5])
             self.ui.chet.setText(str(self.i))
             self.ui.chet_3.setText(str(self.count))
+
+
 
 
 class results(QDialog):
@@ -153,7 +166,31 @@ class results(QDialog):
         self.vop.setText(str(values[0][2]))
         self.otv.setText(str(values[0][3]))
         self.time.setText(str(values[0][4]))
+        val = cur.execute("""SELECT name, time, lvl, otv FROM results ORDER BY otv DESC, time ASC""").fetchmany(5)
+        # ОТРИСОВКА ТАБЛИЦЫ РЕЗУЛЬТАТОВ
+        self.name_1.setText(str(val[0][0]))
+        self.name_2.setText(str(val[1][0]))
+        self.name_3.setText(str(val[2][0]))
+        self.name_4.setText(str(val[3][0]))
+        self.name_5.setText(str(val[4][0]))
 
+        self.time_1.setText(str(val[0][1]))
+        self.time_2.setText(str(val[1][1]))
+        self.time_3.setText(str(val[2][1]))
+        self.time_4.setText(str(val[3][1]))
+        self.time_5.setText(str(val[4][1]))
+
+        self.lvl_1.setText(str(val[0][2]))
+        self.lvl_2.setText(str(val[1][2]))
+        self.lvl_3.setText(str(val[2][2]))
+        self.lvl_4.setText(str(val[3][2]))
+        self.lvl_5.setText(str(val[4][2]))
+
+        self.otv_1.setText(str(val[0][3]))
+        self.otv_2.setText(str(val[1][3]))
+        self.otv_3.setText(str(val[2][3]))
+        self.otv_4.setText(str(val[3][3]))
+        self.otv_5.setText(str(val[4][3]))
 
 
 # МЕНЮ ВЫБОРА АВТОРИЗАЦИИ
