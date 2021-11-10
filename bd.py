@@ -8,6 +8,6 @@ class Data:
 
     def vopros(self, i, c):
         if c == 1:
-            return self.cur.execute(f'SELECT * FROM all_test WHERE id="{i}"').fetchall()
+            return self.cur.execute(f'SELECT * FROM test1 WHERE id="{i}"').fetchall()
         elif c == 2:
             return self.cur.execute(f'SELECT * FROM test2 WHERE id="{i}"').fetchall()

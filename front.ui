@@ -237,7 +237,7 @@ font: 75 26pt &quot;Comic Sans MS&quot;;</string>
   </widget>
   <action name="entrpass">
    <property name="text">
-    <string>Введите пароль </string>
+    <string>Введите пароль</string>
    </property>
   </action>
  </widget>

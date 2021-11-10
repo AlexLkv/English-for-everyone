@@ -68,34 +68,6 @@ color: rgb(255, 0, 0);</string>
     <string>Данное имя уже занято </string>
    </property>
   </widget>
-  <widget class="QLineEdit" name="lineEdit">
-   <property name="geometry">
-    <rect>
-     <x>20</x>
-     <y>60</y>
-     <width>281</width>
-     <height>41</height>
-    </rect>
-   </property>
-   <property name="focusPolicy">
-    <enum>Qt::WheelFocus</enum>
-   </property>
-   <property name="autoFillBackground">
-    <bool>false</bool>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">background-color:#d8fffb;
-border: 2px solid #ff7474;
-border-radius: 10px;
-font: 16pt &quot;MS Shell Dlg 2&quot;;</string>
-   </property>
-   <property name="inputMethodHints">
-    <set>Qt::ImhHiddenText</set>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </widget>
   <widget class="QLabel" name="label_2">
    <property name="geometry">
     <rect>
@@ -144,34 +116,6 @@ font: 16pt &quot;MS Shell Dlg 2&quot;;</string>
    </property>
    <property name="text">
     <string> использоваться для авторизации и сбора статистики.</string>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="pas1_inp">
-   <property name="geometry">
-    <rect>
-     <x>20</x>
-     <y>190</y>
-     <width>281</width>
-     <height>41</height>
-    </rect>
-   </property>
-   <property name="focusPolicy">
-    <enum>Qt::WheelFocus</enum>
-   </property>
-   <property name="autoFillBackground">
-    <bool>false</bool>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">background-color:#d8fffb;
-border: 2px solid #ff7474;
-border-radius: 10px;
-font: 16pt &quot;MS Shell Dlg 2&quot;;</string>
-   </property>
-   <property name="inputMethodHints">
-    <set>Qt::ImhHiddenText</set>
-   </property>
-   <property name="text">
-    <string/>
    </property>
   </widget>
   <widget class="QLabel" name="label_6">
@@ -243,34 +187,6 @@ font: 75 12pt &quot;Comic Sans MS&quot;;</string>
    </property>
    <property name="text">
     <string>Готово!</string>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="pas2_inp">
-   <property name="geometry">
-    <rect>
-     <x>20</x>
-     <y>280</y>
-     <width>281</width>
-     <height>41</height>
-    </rect>
-   </property>
-   <property name="focusPolicy">
-    <enum>Qt::WheelFocus</enum>
-   </property>
-   <property name="autoFillBackground">
-    <bool>false</bool>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">background-color:#d8fffb;
-border: 2px solid #ff7474;
-border-radius: 10px;
-font: 16pt &quot;MS Shell Dlg 2&quot;;</string>
-   </property>
-   <property name="inputMethodHints">
-    <set>Qt::ImhHiddenText</set>
-   </property>
-   <property name="text">
-    <string/>
    </property>
   </widget>
   <widget class="QDateEdit" name="dater">
@@ -363,8 +279,8 @@ color: rgb(255, 0, 0);</string>
   <widget class="QWidget" name="widget" native="true">
    <property name="geometry">
     <rect>
-     <x>-320</x>
-     <y>-60</y>
+     <x>-340</x>
+     <y>-30</y>
      <width>801</width>
      <height>611</height>
     </rect>
@@ -373,21 +289,78 @@ color: rgb(255, 0, 0);</string>
     <string notr="true">background-color: qlineargradient(spread:reflect, x1:1, y1:1, x2:0, y2:0, stop:0.227273 rgba(165, 255, 249, 237), stop:0.886364 rgba(210, 131, 255, 255));</string>
    </property>
   </widget>
+  <widget class="QLineEdit" name="lineEdit">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>60</y>
+     <width>281</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color:#d8fffb;
+border: 2px solid #ff7474;
+border-radius: 10px;
+font: 16pt &quot;MS Shell Dlg 2&quot;;</string>
+   </property>
+   <property name="placeholderText">
+    <string>Login..</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="pas1_inp">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>190</y>
+     <width>281</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color:#d8fffb;
+border: 2px solid #ff7474;
+border-radius: 10px;
+font: 16pt &quot;MS Shell Dlg 2&quot;;</string>
+   </property>
+   <property name="placeholderText">
+    <string>Password..</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="pas2_inp">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>280</y>
+     <width>281</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color:#d8fffb;
+border: 2px solid #ff7474;
+border-radius: 10px;
+font: 16pt &quot;MS Shell Dlg 2&quot;;</string>
+   </property>
+   <property name="placeholderText">
+    <string>Password..</string>
+   </property>
+  </widget>
   <zorder>widget</zorder>
   <zorder>label</zorder>
   <zorder>err_name</zorder>
-  <zorder>lineEdit</zorder>
   <zorder>label_2</zorder>
   <zorder>label_3</zorder>
-  <zorder>pas1_inp</zorder>
   <zorder>label_6</zorder>
   <zorder>label_4</zorder>
   <zorder>cont</zorder>
-  <zorder>pas2_inp</zorder>
   <zorder>dater</zorder>
   <zorder>back</zorder>
   <zorder>label_5</zorder>
   <zorder>err_name_2</zorder>
+  <zorder>lineEdit</zorder>
+  <zorder>pas1_inp</zorder>
+  <zorder>pas2_inp</zorder>
  </widget>
  <resources/>
  <connections/>

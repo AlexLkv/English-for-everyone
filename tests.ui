@@ -44,7 +44,7 @@ border-radius: 10px;
 font: 75 28pt &quot;Comic Sans MS&quot;;</string>
    </property>
    <property name="text">
-    <string>Тест level A1-А2</string>
+    <string>Placement Test A2/B1</string>
    </property>
   </widget>
   <widget class="QPushButton" name="btn_ts_b">
