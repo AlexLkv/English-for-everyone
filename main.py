@@ -1,27 +1,41 @@
+import random
 import sqlite3
 import sys
 
-import cryptocode
-from PyQt5 import uic
+from PyQt5 import QtCore
 from PyQt5.QtCore import QTimer
+from PyQt5.QtGui import QMovie
 from PyQt5.QtWidgets import QApplication, QMainWindow, QDialog, QWidget
+from cryptocode import encrypt, decrypt
 
-import bd
+from admin import admin_menu
+from admin_check import Ui_adch
+from autoriz import Ui_vxo
+from front import Ui_MainWindow
+from getpass import Ui_getpas
+from menu import Ui_menu
+from reg import Ui_reg
+from reyting import reyting
+from rezults import Ui_unrez
+from test_form import Ui_formtes
+from tests import Ui_tests
 
 
 # ГЛАВНОЕ МЕНЮ
-
-
-class Menu1(QMainWindow):
+class Menu1(QMainWindow, Ui_MainWindow):
     def __init__(self):
         super(Menu1, self).__init__()
-        uic.loadUi('front.ui', self)
+        self.setupUi(self)
         self.btn_testing.clicked.connect(self.onClicked)
         self.btn_autoriz.clicked.connect(self.onClicked)
         self.btn_reyt.clicked.connect(self.onClicked)
         self.btn_testing.setEnabled(False)
         self.entrpass.triggered.connect(self.onClicked)
         self.user.setText("Войдите в систему")
+        self.movie = QMovie(f"{random.randrange(1, 4)}.gif")
+        self.movie.setScaledSize(QtCore.QSize(150, 150))
+        self.label_2.setMovie(self.movie)
+        self.movie.start()
 
     def aut(self, i):
         self.btn_testing.setEnabled(True)
@@ -35,16 +49,17 @@ class Menu1(QMainWindow):
             self.second_form = autoris()
             self.second_form.show()
         if self.sender().text() == "Общий рейтинг":
-            pass
+            self.second_form = reyting()
+            self.second_form.show()
         if self.sender().text() == "Введите пароль":
             self.first_form = admin_check()
             self.first_form.show()
 
 
-class admin_check(QDialog):
+class admin_check(QDialog, Ui_adch):
     def __init__(self):
         super().__init__()
-        uic.loadUi('admin_check.ui', self)
+        self.setupUi1(self)
         self.exit.clicked.connect(self.onClicked)
         self.cont.clicked.connect(self.onClicked)
         self.err_pas.hide()
@@ -57,73 +72,19 @@ class admin_check(QDialog):
                 if self.test.currentText() == "Редактирование":
                     self.second_form = admin_menu(1)
                     self.second_form.show()
+                    self.err_pas.hide()
                 else:
                     self.second_form = admin_menu(2)
                     self.second_form.show()
+                    self.err_pas.hide()
             else:
                 self.err_pas.show()
 
 
-class admin_menu(QDialog):
-    def __init__(self, ts):
-        super().__init__()
-        self.con = sqlite3.connect('users')
-        self.cur = self.con.cursor()
-        self.ts1 = False
-        if ts == 1:
-            uic.loadUi('edit_test.ui', self)
-            self.ts1 = True
-        else:
-            uic.loadUi('add_test.ui', self)
-        self.err.hide()
-        self.cont.clicked.connect(self.onClicked)
-
-    def onClicked(self):
-        if self.vop.text() != '' and self.otv.text() != '' and self.ts1 is not True:
-            if self.test.currentText() == "Тест на средний уровень":
-                self.cur.execute("INSERT INTO test1 (Question, ans1, ans2, ans3, ans4, right_ans)" +
-                                 f"VALUES ('{self.vop.text()}', '{self.otv1.text()}', '{self.otv2.text()}', '{self.otv3.text()}', '{self.otv4.text()}', '{self.otv.text()}')")
-                self.con.commit()
-                self.close()
-            elif self.test.currentText() == "Placement Test A2/B1":
-                self.cur.execute("INSERT INTO test2 (Question, ans1, ans2, ans3, right_ans)" +
-                                 f"VALUES ('{self.vop.text()}', '{self.otv1.text()}', '{self.otv2.text()}', '{self.otv3.text()}', '{self.otv.text()}')")
-                self.con.commit()
-                self.close()
-        elif self.vop.text() != '' and self.otv.text() != '' and self.num.text() != '' and self.ts1 is True:
-            if self.test.currentText() == "Тест на средний уровень":
-                self.cur.execute("""UPDATE test1
-                SET Question = ?,
-                ans1 = ?,
-                ans2 = ?,
-                ans3 = ?,
-                ans4 = ?,
-                right_ans = ?
-                WHERE id = ?""", (
-                    self.vop.text(), self.otv1.text(), self.otv2.text(), self.otv3.text(), self.otv4.text(),
-                    self.otv.text(), self.num.text()))
-                self.con.commit()
-                self.close()
-            elif self.test.currentText() == "Placement Test A2/B1":
-                self.cur.execute("""UPDATE test2
-                                SET question = ?,
-                                ans1 = ?,
-                                ans2 = ?,
-                                ans3 = ?,
-                                right_ans = ?
-                                WHERE id = ?""", (
-                    self.vop.text(), self.otv1.text(), self.otv2.text(), self.otv3.text(), self.otv.text(),
-                    self.num.text()))
-                self.con.commit()
-                self.close()
-        else:
-            self.err.show()
-
-
-class tests(QDialog):
+class tests(QDialog, Ui_tests):
     def __init__(self):
         super().__init__()
-        uic.loadUi('tests.ui', self)
+        self.setupUi(self)
         self.btn_ex.clicked.connect(self.onClicked)
         self.btn_ts.clicked.connect(self.onClicked)
         self.btn_ts_a.clicked.connect(self.onClicked)
@@ -141,23 +102,27 @@ class tests(QDialog):
             self.first_form = test(2)
             self.first_form.show()
             self.setVisible(False)
-        if self.sender().text() == "Тест level B1-B2":
-            pass
-        if self.sender().text() == "Тест level C1-C2":
-            pass
+        if self.sender().text() == "Placement Test B2/C1":
+            self.first_form = test(3)
+            self.first_form.show()
+            self.setVisible(False)
+        if self.sender().text() == "Placement Test C1/C2":
+            self.first_form = test(4)
+            self.first_form.show()
+            self.setVisible(False)
 
 
 # НАЧАЛО ТЕСТИРОВАНИЯ
-class test(QWidget):
+class test(QWidget, Ui_formtes):
     def __init__(self, ts):
         super().__init__()
         self.con1 = sqlite3.connect('users')
         self.cur = self.con1.cursor()
         self.i = 1
         self.count = 0
-        self.ui = uic.loadUi('untitled.ui', self)
+        self.setupUi(self)
         self.con.hide()
-        self.ui.prog.setValue(self.i)
+        self.prog.setValue(self.i)
         self.min = 0
         self.h = 0
         self.step = 0
@@ -165,7 +130,8 @@ class test(QWidget):
         self.min_2 = 0
         self.timer = QTimer(self)
         self.timer.timeout.connect(self.update_func)
-        self.ui.otv_2.hide()
+        self.otv_2.hide()
+        self.tes = ts
         if ts == 1:
             self.maxi = self.cur.execute("""SELECT id FROM test1 ORDER BY id DESC""").fetchone()
             value = self.cur.execute(f'SELECT * FROM test1 WHERE id="{1}"').fetchall()
@@ -181,28 +147,35 @@ class test(QWidget):
             self.cont.clicked.connect(self.onClicked)
             self.timer.start(1000)
             self.time = ''
-        if ts == 2:
-            self.maxi = self.cur.execute("""SELECT id FROM test2 ORDER BY id DESC""").fetchone()
-            value = self.cur.execute(f'SELECT * FROM test2 WHERE id="{1}"').fetchall()
-            self.con.clicked.connect(self.onClicked2)
-            self.cont.clicked.connect(self.onClicked2)
+        else:
+            if self.tes == 2:
+                self.maxi = self.cur.execute("""SELECT id FROM test2 ORDER BY id DESC""").fetchone()
+                value = self.cur.execute(f'SELECT * FROM test2 WHERE id="{1}"').fetchall()
+            elif self.tes == 3:
+                self.maxi = self.cur.execute("""SELECT id FROM test3 ORDER BY id DESC""").fetchone()
+                value = self.cur.execute(f'SELECT * FROM test3 WHERE id="{1}"').fetchall()
+            elif self.tes == 4:
+                self.maxi = self.cur.execute("""SELECT id FROM test4 ORDER BY id DESC""").fetchone()
+                value = self.cur.execute(f'SELECT * FROM test4 WHERE id="{1}"').fetchall()
+            self.con.clicked.connect(self.onClicked)
+            self.cont.clicked.connect(self.onClicked)
             self.lineEdit.show()
-            self.ui.anc_1.hide()
-            self.ui.anc_2.hide()
-            self.ui.anc_3.hide()
-            self.ui.anc_4.hide()
-            self.ui.a.hide()
-            self.ui.b.hide()
-            self.ui.c.hide()
-            self.ui.d.hide()
+            self.anc_1.hide()
+            self.anc_2.hide()
+            self.anc_3.hide()
+            self.anc_4.hide()
+            self.a.hide()
+            self.b.hide()
+            self.c.hide()
+            self.d.hide()
             self.chet.setText(str(self.i))
             self.chet_3.setText(str(self.count))
             self.task.setText(value[0][1])
             self.timer.start(1000)
             self.time = ''
-            self.ui.label_11.hide()
-            self.ui.otv.hide()
-        self.ui.prog.setMaximum(self.maxi[0])
+            self.label_11.hide()
+            self.otv.hide()
+        self.prog.setMaximum(self.maxi[0])
 
     def update_func(self):
         self.step += 1
@@ -225,94 +198,200 @@ class test(QWidget):
         self.label.setText(self.time)
 
     def onClicked(self):
-        if self.ui.otv.currentText() == bd.Data.vopros(self, self.i, 1)[0][6]:
-            self.count += 1
-        self.i += 1
-        self.ui.prog.setValue(self.i)
-        if self.i > int(self.maxi[0]):
-            self.timer.stop()
-            f = open('temp.txt', 'r')
-            name = f.readline()
-            if self.count < 15:
-                self.lvl = 'A1-A2'
-            elif 16 <= self.count <= 30:
-                self.lvl = 'B1-B2'
-            else:
-                self.lvl = 'C1-C2'
-            self.cur.execute(
-                "INSERT INTO results (name, lvl, vopr, otv, time)" +
-                f"VALUES ('{name}', '{self.lvl}', '{self.maxi[0]}', '{self.count}', '{self.time}')")
-            self.con1.commit()
-            self.resul = results(1)
-            self.resul.show()
+        if self.tes == 1:
+            if self.otv.currentText() == self.cur.execute(f'SELECT * FROM test1 WHERE id="{self.i}"').fetchall()[0][6]:
+                self.count += 1
+            self.i += 1
+            self.prog.setValue(self.i)
+            if self.i > int(self.maxi[0]):
+                self.timer.stop()
+                f = open('temp.txt', 'r')
+                name = f.readline()
+                if self.count < 15:
+                    self.lvl = 'A1-A2'
+                elif 16 <= self.count <= 30:
+                    self.lvl = 'B1-B2'
+                else:
+                    self.lvl = 'C1-C2'
+                value = self.cur.execute(f'SELECT * FROM results WHERE name="{name}"').fetchall()
+                if value == []:
+                    self.cur.execute("INSERT INTO results (name, lvl, vopr, otv, time)" +
+                                     f"VALUES ('{name}', '{self.lvl}', '{self.maxi[0]}', '{self.count}', '{self.time}')")
+                else:
+                    self.cur.execute("""UPDATE results
+                                SET lvl = ?,
+                                vopr = ?,
+                                otv = ?,
+                                time = ?
+                                WHERE name = ?""", (
+                        self.lvl, self.maxi[0], self.count, self.time, name))
+                self.con1.commit()
+                self.close()
+                self.resul = results(1)
+                self.resul.show()
+        if self.tes == 2:
+            if self.i <= 25 and self.lineEdit.text() == \
+                    self.cur.execute(f'SELECT * FROM test2 WHERE id="{self.i}"').fetchall()[0][5]:
+                self.count += 1
+            if self.i > 25 and self.otv_2.currentText() == \
+                    self.cur.execute(f'SELECT * FROM test2 WHERE id="{self.i}"').fetchall()[0][5]:
+                self.count += 1
+            self.i += 1
+            self.prog.setValue(self.i)
+            if self.i > int(self.maxi[0]):
+                self.timer.stop()
+                f = open('temp.txt', 'r')
+                name = f.readline()
+                if self.count < 20:
+                    self.lvl = 'A1'
+                elif 20 <= self.count <= 35:
+                    self.lvl = 'A2'
+                else:
+                    self.lvl = 'B1'
+                value = self.cur.execute(f'SELECT * FROM results2 WHERE name="{name}"').fetchall()
+                if value == []:
+                    self.cur.execute("INSERT INTO results2 (name, lvl, vopr, otv, time)" +
+                                     f"VALUES ('{name}', '{self.lvl}', '{self.maxi[0]}', '{self.count}', '{self.time}')")
+                else:
+                    self.cur.execute("""UPDATE results2
+                                SET lvl = ?,
+                                vopr = ?,
+                                otv = ?,
+                                time = ?
+                                WHERE name = ?""", (
+                        self.lvl, self.maxi[0], self.count, self.time, name))
+                self.con1.commit()
+                self.resul = results(2)
+                self.resul.show()
+                self.close()
+        elif self.tes == 3:
+            if self.i <= 25 and self.lineEdit.text() == \
+                    self.cur.execute(f'SELECT * FROM test3 WHERE id="{self.i}"').fetchall()[0][5]:
+                self.count += 1
+            if self.i > 25 and self.otv_2.currentText() == \
+                    self.cur.execute(f'SELECT * FROM test3 WHERE id="{self.i}"').fetchall()[0][5]:
+                self.count += 1
+            self.i += 1
+            self.prog.setValue(self.i)
+            if self.i > int(self.maxi[0]):
+                self.timer.stop()
+                f = open('temp.txt', 'r')
+                name = f.readline()
+                if self.count < 22:
+                    self.lvl = 'A1-B1'
+                elif 22 <= self.count <= 37:
+                    self.lvl = 'B2'
+                else:
+                    self.lvl = 'C1'
+                value = self.cur.execute(f'SELECT * FROM results3 WHERE name="{name}"').fetchall()
+                if value == []:
+                    self.cur.execute("INSERT INTO results3 (name, lvl, vopr, otv, time)" +
+                                     f"VALUES ('{name}', '{self.lvl}', '{self.maxi[0]}', '{self.count}', '{self.time}')")
+                else:
+                    self.cur.execute("""UPDATE results3
+                                SET lvl = ?,
+                                vopr = ?,
+                                otv = ?,
+                                time = ?
+                                WHERE name = ?""", (
+                        self.lvl, self.maxi[0], self.count, self.time, name))
+                self.con1.commit()
+                self.close()
+                self.resul = results(3)
+                self.resul.show()
+        elif self.tes == 4:
+            if (25 >= self.i or 51 < self.i) and self.lineEdit.text() == \
+                    self.cur.execute(f'SELECT * FROM test4 WHERE id="{self.i}"').fetchall()[0][6]:
+                self.count += 1
+            elif 25 < self.i < 51 and self.otv.currentText() == \
+                    self.cur.execute(f'SELECT * FROM test4 WHERE id="{self.i}"').fetchall()[0][6]:
+                self.count += 1
+            self.i += 1
+            self.prog.setValue(self.i)
+            if self.i > int(self.maxi[0]):
+                self.timer.stop()
+                f = open('temp.txt', 'r')
+                name = f.readline()
+                if self.count < 40:
+                    self.lvl = 'A1-B2'
+                elif 40 <= self.count <= 59:
+                    self.lvl = 'C1'
+                else:
+                    self.lvl = 'C2'
+                value = self.cur.execute(f'SELECT * FROM results4 WHERE name="{name}"').fetchall()
+                if value == []:
+                    self.cur.execute("INSERT INTO results4 (name, lvl, vopr, otv, time)" +
+                                     f"VALUES ('{name}', '{self.lvl}', '{self.maxi[0]}', '{self.count}', '{self.time}')")
+                else:
+                    self.cur.execute("""UPDATE results4
+                                SET lvl = ?,
+                                vopr = ?,
+                                otv = ?,
+                                time = ?
+                                WHERE name = ?""", (
+                        self.lvl, self.maxi[0], self.count, self.time, name))
+                self.con1.commit()
+                self.close()
+                self.resul = results(4)
+                self.resul.show()
         if self.i <= int(self.maxi[0]):
+            if self.tes == 1:
+                value = self.cur.execute(f'SELECT * FROM test1 WHERE id="{self.i}"').fetchall()
+            if self.tes == 2:
+                value = self.cur.execute(f'SELECT * FROM test2 WHERE id="{self.i}"').fetchall()
+            elif self.tes == 3:
+                value = self.cur.execute(f'SELECT * FROM test3 WHERE id="{self.i}"').fetchall()
+            elif self.tes == 4:
+                value = self.cur.execute(f'SELECT * FROM test4 WHERE id="{self.i}"').fetchall()
             if self.i == self.maxi[0]:
                 self.cont.hide()
                 self.con.show()
-            value = self.cur.execute(f'SELECT * FROM test1 WHERE id="{self.i}"').fetchall()
-            self.ui.task.setText(value[0][1])
-            self.ui.anc_1.setText(value[0][2])
-            self.ui.anc_2.setText(value[0][3])
-            self.ui.anc_3.setText(value[0][4])
-            self.ui.anc_4.setText(value[0][5])
-            self.ui.chet.setText(str(self.i))
-            self.ui.chet_3.setText(str(self.count))
-
-    def onClicked2(self):
-        if self.i <= 25 and self.ui.lineEdit.text() == bd.Data.vopros(self, self.i, 2)[0][5]:
-            self.count += 1
-        if self.i > 25 and self.ui.otv.currentText() == bd.Data.vopros(self, self.i, 2)[0][5]:
-            self.count += 1
-        self.i += 1
-        self.ui.prog.setValue(self.i)
-        if self.i > int(self.maxi[0]):
-            self.timer.stop()
-            f = open('temp.txt', 'r')
-            name = f.readline()
-            if self.count < 20:
-                self.lvl = 'A1'
-            elif 20 <= self.count <= 35:
-                self.lvl = 'A2'
+            if (25 >= self.i or 50 < self.i) and self.tes != 1:
+                self.task.setText(value[0][1])
+                self.chet.setText(str(self.i))
+                self.chet_3.setText(str(self.count))
+                self.anc_1.hide()
+                self.anc_2.hide()
+                self.anc_3.hide()
+                self.anc_4.hide()
+                self.a.hide()
+                self.b.hide()
+                self.c.hide()
+                self.d.hide()
+                self.otv.hide()
+                self.label_11.hide()
+                if self.tes != 1:
+                    self.lineEdit.show()
+                    self.lineEdit.setText("")
             else:
-                self.lvl = 'B1'
-            self.cur.execute(
-                "INSERT INTO results2 (name, lvl, vopr, otv, time)" +
-                f"VALUES ('{name}', '{self.lvl}', '{self.maxi[0]}', '{self.count}', '{self.time}')")
-            self.con1.commit()
-            self.resul = results(2)
-            self.resul.show()
-        if self.i <= int(self.maxi[0]):
-            value = self.cur.execute(f'SELECT * FROM test2 WHERE id="{self.i}"').fetchall()
-            if self.i == self.maxi[0]:
-                self.cont.hide()
-                self.con.show()
-            if self.i <= 25:
-                self.ui.task.setText(value[0][1])
-                self.ui.chet.setText(str(self.i))
-                self.ui.chet_3.setText(str(self.count))
-                self.ui.lineEdit.setText("")
-            else:
-                self.ui.anc_1.show()
-                self.ui.anc_2.show()
-                self.ui.anc_3.show()
-                self.ui.a.show()
-                self.ui.b.show()
-                self.ui.c.show()
+                self.anc_1.show()
+                self.anc_2.show()
+                self.anc_3.show()
+                self.a.show()
+                self.b.show()
+                self.c.show()
+                if self.tes == 4 or self.tes == 1:
+                    self.anc_4.show()
+                    self.d.show()
+                    self.anc_4.setText(value[0][5])
                 self.lineEdit.hide()
-                self.ui.label_11.show()
-                self.ui.otv_2.show()
-                self.ui.task.setText(value[0][1])
-                self.ui.anc_1.setText(value[0][2])
-                self.ui.anc_2.setText(value[0][3])
-                self.ui.anc_3.setText(value[0][4])
-                self.ui.chet.setText(str(self.i))
-                self.ui.chet_3.setText(str(self.count))
+                self.label_11.show()
+                if self.tes != 2 and self.tes != 3:
+                    self.otv.show()
+                else:
+                    self.otv_2.show()
+                self.task.setText(value[0][1])
+                self.anc_1.setText(value[0][2])
+                self.anc_2.setText(value[0][3])
+                self.anc_3.setText(value[0][4])
+                self.chet.setText(str(self.i))
+                self.chet_3.setText(str(self.count))
 
 
-class results(QDialog):
+class results(QDialog, Ui_unrez):
     def __init__(self, ts):
         super().__init__()
-        uic.loadUi('rezults.ui', self)
+        self.setupUi(self)
         f = open('temp.txt', 'r')
         name = f.readline()
         con = sqlite3.connect('users')
@@ -323,6 +402,12 @@ class results(QDialog):
         elif ts == 2:
             values = cur.execute(f'SELECT * FROM results2 WHERE name="{name}"').fetchall()
             val = cur.execute("""SELECT name, time, lvl, otv FROM results2 ORDER BY otv DESC, time ASC""").fetchmany(5)
+        elif ts == 3:
+            values = cur.execute(f'SELECT * FROM results3 WHERE name="{name}"').fetchall()
+            val = cur.execute("""SELECT name, time, lvl, otv FROM results3 ORDER BY otv DESC, time ASC""").fetchmany(5)
+        elif ts == 4:
+            values = cur.execute(f'SELECT * FROM results4 WHERE name="{name}"').fetchall()
+            val = cur.execute("""SELECT name, time, lvl, otv FROM results4 ORDER BY otv DESC, time ASC""").fetchmany(5)
         self.lvl.setText(str(values[0][1]))
         self.vop.setText(str(values[0][2]))
         self.otv.setText(str(values[0][3]))
@@ -377,10 +462,10 @@ class results(QDialog):
 
 
 # МЕНЮ ВЫБОРА АВТОРИЗАЦИИ
-class autoris(QWidget):
+class autoris(QWidget, Ui_menu):
     def __init__(self):
         super().__init__()
-        uic.loadUi('menu.ui', self)
+        self.setupUi(self)
         self.back.clicked.connect(self.onClicked)
         self.autr.clicked.connect(self.onClicked)
         self.reg.clicked.connect(self.onClicked)
@@ -404,17 +489,17 @@ class autoris(QWidget):
 
 
 # ВХОД В СИСТЕМУ
-class vxod(QWidget):
+class vxod(QWidget, Ui_vxo):
     def __init__(self):
         super().__init__()
-        self.ui = uic.loadUi('autoriz.ui', self)
+        self.setupUi(self)
         self.err_not_found.hide()
         self.err_not_found_2.hide()
         self.back.clicked.connect(self.onClicked)
         self.cont.clicked.connect(self.onClicked)
 
     def onClicked(self):
-        self.login = self.ui.name_inp.text()
+        self.login = self.name_inp.text()
         fl = open('temp.txt', 'w')
         fl.write(self.login)
         if self.sender().text() == "<-- Назад":
@@ -427,7 +512,7 @@ class vxod(QWidget):
             if value == []:
                 self.err_not_found.show()
                 self.err_not_found_2.hide()
-            elif cryptocode.decrypt(value[0][1], "wow") != self.ui.pas_inp.text():
+            elif decrypt(value[0][1], "wow") != self.pas_inp.text():
                 self.err_not_found_2.show()
                 self.err_not_found.hide()
             else:
@@ -437,12 +522,12 @@ class vxod(QWidget):
 
 
 # РЕГИСТРАЦИЯ В СИСТЕМЕ
-class login1(QWidget):
+class login1(QWidget, Ui_reg):
     def __init__(self):
         super().__init__()
-        self.ui = uic.loadUi('login.ui', self)
-        self.ui.err_name.hide()
-        self.ui.err_name_2.hide()
+        self.setupUi(self)
+        self.err_name.hide()
+        self.err_name_2.hide()
         self.back.clicked.connect(self.onClicked)
         self.cont.clicked.connect(self.onClicked)
 
@@ -450,23 +535,23 @@ class login1(QWidget):
         if self.sender().text() == "<-- Назад":
             self.close()
         if self.sender().text() == "Готово!":
-            self.login = self.ui.lineEdit.text()
+            self.login = self.lineEdit.text()
             con = sqlite3.connect('users')
             cur = con.cursor()
             value = cur.execute(f'SELECT * FROM datem WHERE name="{self.login}"').fetchall()
             # ПРОВЕРКА НА ИМЕЮЩЕЕСЯ ИМЯ
             if self.sender().text() == "Готово!":
-                self.pass1 = self.ui.pas1_inp.text()
-                self.pass2 = self.ui.pas2_inp.text()
-                dt = str(self.ui.dater.date())[19:-1].split(', ')  # СБОР ИНФОРМАЦИИ О ДАТЕ РОЖДЕНИЯ
+                self.pass1 = self.pas1_inp.text()
+                self.pass2 = self.pas2_inp.text()
+                dt = str(self.dater.date())[19:-1].split(', ')  # СБОР ИНФОРМАЦИИ О ДАТЕ РОЖДЕНИЯ
                 self.dt = (dt[0] + "-" + dt[1] + "-" + dt[2])
                 if value != []:
-                    self.ui.err_name.show()
+                    self.err_name.show()
                 elif self.pass1 != self.pass2:
-                    self.ui.err_name_2.show()
+                    self.err_name_2.show()
+                    self.err_name.hide()
                 else:
-                    str_encoded = cryptocode.encrypt(self.pass1, "wow")
-                    print(type(str_encoded), str_encoded)
+                    str_encoded = encrypt(self.pass1, "wow")
                     cur.execute(f"INSERT INTO datem (name, pass, date)"
                                 f"VALUES ('{self.login}', '{str_encoded}', '{self.dt}')")
                     fl = open('temp.txt', 'w')
@@ -478,10 +563,10 @@ class login1(QWidget):
 
 
 # ВОССТАНОВЛЕНИЕ ПАРОЛЯ
-class get_pass(QWidget):
+class get_pass(QWidget, Ui_getpas):
     def __init__(self):
         super().__init__()
-        uic.loadUi('getpass.ui', self)
+        self.setupUi(self)
         self.back.clicked.connect(self.onClicked)
         self.cont_2.clicked.connect(self.onClicked)
         self.err_name_3.hide()
@@ -504,14 +589,9 @@ class get_pass(QWidget):
                 self.err_name_2.show()
                 self.err_name_3.hide()
             else:
-                self.inp_pass.setText(cryptocode.decrypt(value[0][2], "wow"))
+                self.inp_pass.setText(decrypt(value[0][2], "wow"))
                 self.err_name_3.hide()
                 self.err_name_2.hide()
-
-
-# ВКЛАДКА РЕЙТИНГА
-class reyting(QWidget):
-    pass
 
 
 if __name__ == '__main__':

@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Form</class>
- <widget class="QWidget" name="Form">
+ <class>edte</class>
+ <widget class="QWidget" name="edte">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>624</width>
-    <height>406</height>
+    <width>625</width>
+    <height>405</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -40,7 +40,12 @@ font: 13pt &quot;MS Shell Dlg 2&quot;;</string>
    </item>
    <item>
     <property name="text">
-     <string>Test3</string>
+     <string>Placement Test B2/C1</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Placement Test C1/C2</string>
     </property>
    </item>
   </widget>
